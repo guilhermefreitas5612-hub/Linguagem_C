@@ -1,10 +1,11 @@
 /*
  * Projeto Final - Sistema de Estoque
- * Compilar: gcc main.c produto.c categoria.c util.c -o sistema_estoque.exe
+ * Compilar: gcc -std=c11 -Wall -Wextra -Wpedantic main.c produto.c categoria.c util.c -o sistema_estoque.exe
  */
 #include <stdio.h>
 #include <locale.h>
-#include "estoque.h"
+#include "produto.h"
+#include "categoria.h"
 #include "util.h"
 
 Categoria categorias[MAX_CATEGORIAS];
@@ -24,6 +25,7 @@ static void exibirMenu(void) {
     puts("7 - Sair");
     puts("------------------------------------");
 }
+
 static void menuCategorias(void) {
     int opcao;
     do {
@@ -40,6 +42,7 @@ static void menuCategorias(void) {
         }
     } while(opcao!=3);
 }
+
 int main(void) {
     int opcao;
     setlocale(LC_ALL,"");
@@ -55,7 +58,11 @@ int main(void) {
             case 4: alterarEstoque(); break;
             case 5: removerProduto(); break;
             case 6: menuCategorias(); break;
-            case 7: salvarCategorias(); salvarProdutos(); puts("Programa encerrado. Ate mais!"); break;
+            case 7:
+                salvarCategorias();
+                salvarProdutos();
+                puts("Programa encerrado. Ate mais!");
+                break;
             default: puts("Opcao invalida. Escolha de 1 a 7.");
         }
     } while(opcao!=7);
