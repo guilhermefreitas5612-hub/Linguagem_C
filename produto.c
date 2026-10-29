@@ -1,4 +1,5 @@
-#include "estoque.h"
+#include "produto.h"
+#include "categoria.h"
 #include "util.h"
 #include <stdio.h>
 #include <string.h>
