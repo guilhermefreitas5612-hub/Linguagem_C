@@ -13,31 +13,61 @@ void lerTexto(const char *mensagem, char *destino, size_t tamanho) {
     if (n && destino[n-1] == '\n') destino[n-1] = '\0';
     else { int c; while ((c=getchar())!='\n' && c!=EOF) {} }
 }
+
 int textoVazio(const char *texto) {
-    while (*texto) { if (!isspace((unsigned char)*texto)) return 0; texto++; }
+    while (*texto) {
+        if (!isspace((unsigned char)*texto)) return 0;
+        texto++;
+    }
     return 1;
 }
+
 int lerInteiro(const char *mensagem) {
     char linha[128], *fim;
     long valor;
     for (;;) {
         lerTexto(mensagem, linha, sizeof linha);
-        errno=0; valor=strtol(linha,&fim,10);
+        errno=0;
+        valor=strtol(linha,&fim,10);
         while (isspace((unsigned char)*fim)) fim++;
-        if (linha[0] && *fim=='\0' && errno==0 && valor>=-2147483647L-1 && valor<=2147483647L)
+        if (linha[0] && *fim=='\0' && errno==0 &&
+            valor>=-2147483647L-1 && valor<=2147483647L)
             return (int)valor;
         puts("Entrada invalida. Digite um numero inteiro.");
     }
 }
+
+/* Validacoes numericas genericas: nao dependem das listas de produtos/categorias. */
+int lerInteiroPositivo(const char *mensagem) {
+    int valor;
+    do {
+        valor=lerInteiro(mensagem);
+        if (valor<=0) puts("O valor deve ser um numero inteiro positivo.");
+    } while (valor<=0);
+    return valor;
+}
+
+int lerInteiroNaoNegativo(const char *mensagem) {
+    int valor;
+    do {
+        valor=lerInteiro(mensagem);
+        if (valor<0) puts("O valor nao pode ser negativo.");
+    } while (valor<0);
+    return valor;
+}
+
 float lerPreco(const char *mensagem) {
     char linha[128], *fim;
     float valor;
     for (;;) {
         lerTexto(mensagem, linha, sizeof linha);
-        for (size_t i=0; linha[i]; i++) if (linha[i]==',') linha[i]='.';
-        errno=0; valor=strtof(linha,&fim);
+        for (size_t i=0; linha[i]; i++)
+            if (linha[i]==',') linha[i]='.';
+        errno=0;
+        valor=strtof(linha,&fim);
         while (isspace((unsigned char)*fim)) fim++;
-        if (linha[0] && *fim=='\0' && errno==0 && valor>0.0f) return valor;
+        if (linha[0] && *fim=='\0' && errno==0 && valor>0.0f)
+            return valor;
         puts("Preco invalido. Digite um valor maior que zero.");
     }
 }
