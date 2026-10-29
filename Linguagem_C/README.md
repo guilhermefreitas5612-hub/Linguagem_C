@@ -1,2 +1,0 @@
-# Linguagem_C
-
