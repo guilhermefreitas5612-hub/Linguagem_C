@@ -13,6 +13,7 @@ typedef struct {
     float preco;
     int quantidade;
     int idCategoria;
+    char prateleira;
     int ativo;
 } Produto;
 
